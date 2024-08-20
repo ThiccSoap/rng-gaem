@@ -1,0 +1,3 @@
+R: Opens the rarity book
+Space: Toggles auto roll
+C: Shows you the changelog
