@@ -16,13 +16,13 @@ function love.load()
     sparkleScale = 1
     showSolarnium = false
     autoRollUnlocked = false
-    build = "Build 36"
+    build = "Build 37"
     changelogVisible = true
     changelog = [[
     Changelog:
-    - Build 36
-    - Added auto-save feature
-    - 
+    - Build 37
+    - Nerfed auto roll 
+    - Removed some placeholder texts
     - 
     ]]
     rarityBookVisible = false
@@ -180,7 +180,7 @@ function love.update(dt)
         rollTimer = rollTimer + dt
         if rollTimer >= 0.01 then
             rarity = generateRarity()
-            rollCount = rollCount + 3
+            rollCount = rollCount + 1
             updateRarestRarity(rarity)
             if rarity == "Solarnium" then
                 cutsceneActive = true
@@ -201,7 +201,7 @@ function love.update(dt)
                 sparkleRotation = 0
                 sparkleScale = 1
             end
-            rollTimer = rollTimer - 0.01
+            rollTimer = rollTimer - 0.1
             saveGame()
         end
     end
@@ -245,9 +245,11 @@ end
 -- Function to draw on the screen
 function love.draw()
     if changelogVisible then
+        love.graphics.clear()
         love.graphics.printf(changelog, 10, 10, love.graphics.getWidth() - 20)
         love.graphics.print("Press 'C' to close the changelog", 10, love.graphics.getHeight() - 20)
     elseif rarityBookVisible then
+        love.graphics.clear()
         love.graphics.print("Rarity Book:", 10, 10)
         local y = 30
         for rarity, description in pairs(rarityBook) do
@@ -256,24 +258,40 @@ function love.draw()
         end
         love.graphics.print("Press 'R' to close the rarity book", 10, love.graphics.getHeight() - 20)
     else
-        -- Draw the main game screen
-        love.graphics.print("Generated Rarity: " .. rarity, 10, 10)
-        love.graphics.print("Total Rolls: " .. formatNumberWithCommas(rollCount), 10, 30)
-        love.graphics.print("Auto-Roll: " .. (autoRoll and "Enabled" or "Disabled"), 10, 50)
-        love.graphics.print("Auto-Roll Unlocked: " .. (autoRollUnlocked and "Yes" or "No"), 10, 70)
-        love.graphics.print("Rarest Rarity: " .. (rarestRarity or "None"), 10, 90)
+        -- Clear the screen and set a black background
+        love.graphics.clear(0, 0, 0)  -- Black background
 
         if cutsceneActive then
             if cutsceneType == "Solarnium" then
+                love.graphics.setColor(1, 1, 1)  -- White color
                 love.graphics.print("Solarnium Cutscene!", 10, 10)
                 love.graphics.draw(sparkle, love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, sparkleRotation, sparkleScale, sparkleScale, sparkle:getWidth() / 2, sparkle:getHeight() / 2)
             elseif cutsceneType == "Mythical" then
+                love.graphics.setColor(1, 1, 1)  -- White color
                 love.graphics.print("Mythical Cutscene!", 10, 10)
+				love.graphics.draw(sparkle, love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, sparkleRotation, sparkleScale, sparkleScale, sparkle:getWidth() / 2, sparkle:getHeight() / 2)
+                -- You can add specific drawing or effects for the Mythical cutscene here
             elseif cutsceneType == "Quantum" then
+                love.graphics.setColor(1, 1, 1)  -- White color
                 love.graphics.print("Quantum Cutscene!", 10, 10)
+				love.graphics.draw(sparkle, love.graphics.getWidth() / 2, love.graphics.getHeight() / 2, sparkleRotation, sparkleScale, sparkleScale, sparkle:getWidth() / 2, sparkle:getHeight() / 2)
+                -- You can add specific drawing or effects for the Quantum cutscene here
             end
-        end
+        else
+            -- Draw the main game screen
+            love.graphics.setColor(1, 1, 1)  -- White color
+            love.graphics.print("Generated Rarity: " .. rarity, 10, 10)
+            love.graphics.print("Total Rolls: " .. formatNumberWithCommas(rollCount), 10, 30)
+            love.graphics.print("Auto-Roll: " .. (autoRoll and "Enabled" or "Disabled"), 10, 50)
+            love.graphics.print("Auto-Roll Unlocked: " .. (autoRollUnlocked and "Yes" or "No"), 10, 70)
+            love.graphics.print("Rarest Rarity: " .. (rarestRarity or "None"), 10, 90)
 
-        love.graphics.print("Build: " .. build, 10, love.graphics.getHeight() - 20)
+            if showSolarnium then
+                love.graphics.print("placeholder i guess?", 10, 110)
+            end
+
+            love.graphics.print("Build: " .. build, 10, love.graphics.getHeight() - 20)
+        end
     end
 end
+
