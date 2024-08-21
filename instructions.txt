@@ -1,4 +1,0 @@
-R: Opens the rarity book
-Space: Toggles auto roll
-C: Shows you the changelog
-Also remember to remove this txt file from the folder otherwise it will throw an error when opening it
